@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <title>Проверка</title>
+    <style>
+        /* Общи стилове */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f7fa;
+            margin: 0;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        /* Форма за проверка */
+        #checkForm {
+            margin-bottom: 30px;
+        }
+        
+        #checkForm input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 16px;
+        }
+        
+        #checkForm button {
+            width: 100%;
+            padding: 12px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 10px;
+            transition: background-color 0.3s;
+        }
+        
+        #checkForm button:hover {
+            background-color: #2980b9;
+        }
+        
+        /* Резултати */
+        .result-box {
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            border: 1px solid #e1e4e8;
+            margin-bottom: 30px;
+        }
+        
+        .error-message {
+            color: #e74c3c;
+            text-align: center;
+            margin: 15px 0;
+        }
+        
+        /* Админ инструменти */
+        .admin-tools {
+            display: none;
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 2px solid #eee;
+        }
+        
+        .admin-tools h2 {
+            color: #2c3e50;
+            text-align: center;
+        }
+        
+        #searchInput {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        th {
+            background-color: #f2f2f2;
+            font-weight: 600;
+        }
+        
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Проверка на участник</h1>
+        
+        <form id="checkForm">
+            <input type="text" id="code" placeholder="Въведете 6-цифрен код" required>
+            <button type="submit">Провери</button>
+        </form>
+        
+        <div id="error" class="error-message"></div>
+        <div id="result" class="result-box" style="display: none;"></div>
+        
+        <!-- Админ инструменти -->
+        <div id="adminTools" class="admin-tools">
+            <h2>Административни инструменти</h2>
+            <input type="text" id="searchInput" placeholder="Търсене по име, фамилия или код">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Код</th>
+                        <th>Име</th>
+                        <th>Фамилия</th>
+                        <th>Тип</th>
+                        <th>Телефон</th>
+                    </tr>
+                </thead>
+                <tbody id="participantsTable"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        // Проверка за администратор
+        const currentUser = localStorage.getItem('currentAdmin');
+        const admins = JSON.parse(localStorage.getItem('admins')) || {};
+        
+        if(admins[currentUser]) {
+            document.getElementById('adminTools').style.display = 'block';
+            loadParticipants();
+        }
+        
+        // Проверка на участник
+        document.getElementById('checkForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const code = document.getElementById('code').value;
+            const participants = JSON.parse(localStorage.getItem('participants')) || {};
+            const participant = participants[code];
+            
+            if(participant) {
+                document.getElementById('result').innerHTML = `
+                    <h3>Данни за участника:</h3>
+                    <p><strong>Код:</strong> ${participant.code}</p>
+                    <p><strong>Име:</strong> ${participant.firstName} ${participant.lastName}</p>
+                    <p><strong>Тип:</strong> ${participant.type}</p>
+                    <p><strong>Телефон:</strong> ${participant.phone}</p>
+                `;
+                document.getElementById('result').style.display = 'block';
+                document.getElementById('error').textContent = '';
+            } else {
+                document.getElementById('error').textContent = 'Няма регистриран участник с този код!';
+                document.getElementById('result').style.display = 'none';
+            }
+        });
+        
+        // Зареждане на участници (за админи)
+        function loadParticipants() {
+            const participants = JSON.parse(localStorage.getItem('participants')) || {};
+            const tableBody = document.getElementById('participantsTable');
+            tableBody.innerHTML = '';
+            
+            Object.values(participants).forEach(p => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${p.code}</td>
+                    <td>${p.firstName}</td>
+                    <td>${p.lastName}</td>
+                    <td>${p.type}</td>
+                    <td>${p.phone}</td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+        
+        // Търсене
+        document.getElementById('searchInput').addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            const rows = document.querySelectorAll('#participantsTable tr');
+            
+            rows.forEach(row => {
+                const text = row.textContent.toLowerCase();
+                row.style.display = text.includes(searchTerm) ? '' : 'none';
+            });
+        });
+    </script>
+</body>
+</html>
