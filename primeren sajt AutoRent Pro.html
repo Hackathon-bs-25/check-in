@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AutoRent Pro - Наем на автомобили в цяла България</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        
+        header {
+            background-color: #2c3e50;
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+        }
+        
+        nav {
+            background-color: #34495e;
+            padding: 10px 0;
+        }
+        
+        nav ul {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin: 0 15px;
+        }
+        
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        h1, h2, h3 {
+            margin-bottom: 20px;
+            color: #2c3e50;
+        }
+        
+        .car-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .car-card {
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+        
+        .car-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .car-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        
+        .car-info {
+            padding: 15px;
+        }
+        
+        .car-info h3 {
+            margin-bottom: 10px;
+        }
+        
+        .car-info p {
+            margin-bottom: 8px;
+            color: #666;
+        }
+        
+        .price {
+            font-weight: bold;
+            color: #e74c3c;
+            font-size: 1.2em;
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: #e74c3c;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            margin-top: 10px;
+            transition: background-color 0.3s;
+        }
+        
+        .btn:hover {
+            background-color: #c0392b;
+        }
+        
+        .map-container {
+            height: 500px;
+            margin: 30px 0;
+            background-color: #ddd;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .map-placeholder {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .booking-form {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin: 30px 0;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        
+        .form-group input, 
+        .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        
+        .payment-options {
+            margin: 20px 0;
+        }
+        
+        .payment-option {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .payment-option input {
+            margin-right: 10px;
+        }
+        
+        footer {
+            background-color: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+            margin-top: 50px;
+        }
+        
+        @media (max-width: 768px) {
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            nav ul li {
+                margin: 5px 0;
+            }
+            
+            .car-gallery {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>AutoRent Pro</h1>
+        <p>Наем на автомобили в цяла България</p>
+    </header>
+    
+    <nav>
+        <ul>
+            <li><a href="#cars">Автомобили</a></li>
+            <li><a href="#locations">Локации</a></li>
+            <li><a href="#booking">Резервация</a></li>
+            <li><a href="#contact">Контакти</a></li>
+        </ul>
+    </nav>
+    
+    <div class="container">
+        <section id="cars">
+            <h2>Нашите автомобили</h2>
+            <p>Изберете от нашата разнообразна галерия с премиум автомобили</p>
+            
+            <div class="car-gallery">
+                <div class="car-card">
+                    <img src="https://i0.wp.com/www.kaldata.com/wp-content/uploads/2024/02/5-hyundai-sonata-hybrid-1706573276.webp?ssl=1" alt="Икономичен автомобил">
+                    <div class="car-info">
+                        <h3>Икономичен автомобил</h3>
+                        <p>Идеален за градско пътуване</p>
+                        <p>4-5 места</p>
+                        <p>Автоматична скоростна кутия</p>
+                        <p class="price">40 лв./ден</p>
+                        <a href="#booking" class="btn">Резервирай</a>
+                    </div>
+                </div>
+                
+                <div class="car-card">
+                    <img src="https://kamioni.bg/wp-content/uploads/28122_2_dacia-jogger.jpg" alt="Семеен автомобил">
+                    <div class="car-info">
+                        <h3>Семеен автомобил</h3>
+                        <p>Просторен и удобен</p>
+                        <p>5-7 места</p>
+                        <p>Голям багажник</p>
+                        <p class="price">60 лв./ден</p>
+                        <a href="#booking" class="btn">Резервирай</a>
+                    </div>
+                </div>
+                
+                <div class="car-card">
+                    <img src="https://www.luxotica.bg/wp-content/uploads/2020/10/eqs-660x330.jpg" alt="Луксозен автомобил">
+                    <div class="car-info">
+                        <h3>Луксозен автомобил</h3>
+                        <p>За специални поводи</p>
+                        <p>4-5 места</p>
+                        <p>Всички екстри</p>
+                        <p class="price">120 лв./ден</p>
+                        <a href="#booking" class="btn">Резервирай</a>
+                    </div>
+                </div>
+                
+                <div class="car-card">
+                    <img src="https://mobistatic3.focus.bg/mobile/photosorg/184/2/big//21730471457218184_eK.webp" alt="Джип">
+                    <div class="car-info">
+                        <h3>Джип</h3>
+                        <p>За планински преходи</p>
+                        <p>4-5 места</p>
+                        <p>4x4 задвижване</p>
+                        <p class="price">90 лв./ден</p>
+                        <a href="#booking" class="btn">Резервирай</a>
+                    </div>
+                </div>
+                
+                <div class="car-card">
+                    <img src="https://webnews.bg/uploads/images/51/8851/428851/768x432.jpg?_=1560416817" alt="Комби">
+                    <div class="car-info">
+                        <h3>Комби</h3>
+                        <p>За големи товари</p>
+                        <p>5 места</p>
+                        <p>Огромен багажник</p>
+                        <p class="price">70 лв./ден</p>
+                        <a href="#booking" class="btn">Резервирай</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="locations">
+            <h2>Нашите локации</h2>
+            <p>Над 20 офиса в цяла България</p>
+            
+            <div class="map-container">
+                <img src="https://littlebg.com/wp-content/uploads/2017/12/%D0%BD%D0%B0%D0%B9-%D0%BD%D0%B0%D1%81%D0%B5%D0%BB%D0%B5%D0%BD%D0%B8-%D0%B3%D1%80%D0%B0%D0%B4%D0%BE%D0%B2%D0%B5-%D0%B2-%D0%91%D1%8A%D0%BB%D0%B3%D0%B0%D1%80%D0%B8%D1%8F.jpg" alt="Карта на България" class="map-placeholder">
+                <!-- Тук ще се интегрира Google Maps или друга карта -->
+            </div>
+            
+            <div class="locations-list">
+                <h3>Основни офис локации:</h3>
+                <ul>
+                    <li>София - Център</li>
+                    <li>София - Младост</li>
+                    <li>Пловдив</li>
+                    <li>Варна</li>
+                    <li>Бургас</li>
+                    <li>Русе</li>
+                    <li>Стара Загора</li>
+                    <li>Плевен</li>
+                    <li>Велико Търново</li>
+                    <li>Благоевград</li>
+                </ul>
+            </div>
+        </section>
+        
+        <section id="booking" class="booking-form">
+            <h2>Резервация на автомобил</h2>
+            <form>
+                <div class="form-group">
+                    <label for="car-type">Тип автомобил:</label>
+                    <select id="car-type" required>
+                        <option value="">Изберете автомобил</option>
+                        <option value="economy">Икономичен автомобил</option>
+                        <option value="family">Семеен автомобил</option>
+                        <option value="luxury">Луксозен автомобил</option>
+                        <option value="suv">Джип</option>
+                        <option value="combi">Комби</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="location">Локация за вземане:</label>
+                    <select id="location" required>
+                        <option value="">Изберете локация</option>
+                        <option value="sofia-center">София - Център</option>
+                        <option value="sofia-mladost">София - Младост</option>
+                        <option value="plovdiv">Пловдив</option>
+                        <option value="varna">Варна</option>
+                        <option value="burgas">Бургас</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="pickup-date">Дата на вземане:</label>
+                    <input type="date" id="pickup-date" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="return-date">Дата на връщане:</label>
+                    <input type="date" id="return-date" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="name">Име:</label>
+                    <input type="text" id="name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">Имейл:</label>
+                    <input type="email" id="email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="phone">Телефон:</label>
+                    <input type="tel" id="phone" required>
+                </div>
+                
+                <h3>Начин на плащане:</h3>
+                <div class="payment-options">
+                    <div class="payment-option">
+                        <input type="radio" id="online-payment" name="payment" value="online" checked>
+                        <label for="online-payment">Онлайн плащане с карта</label>
+                    </div>
+                    
+                    <div class="payment-option">
+                        <input type="radio" id="office-payment" name="payment" value="office">
+                        <label for="office-payment">Плащане в офис при вземане</label>
+                    </div>
+                </div>
+                
+                <button type="submit" class="btn">Направи резервация</button>
+            </form>
+        </section>
+        
+        <section id="contact">
+            <h2>Контакти</h2>
+            <p>Централен офис: София, бул. "Цариградско шосе" 115</p>
+            <p>Телефон: 02 123 4567</p>
+            <p>Имейл: info@autorentpro.bg</p>
+            <p>Работно време: 09:00 - 18:00, понеделник - събота</p>
+        </section>
+    </div>
+    
+    <footer>
+        <p>&copy; 2025 AutoRent Pro. Всички права запазени.</p>
+    </footer>
+</body>
+</html>
